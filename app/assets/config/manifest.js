@@ -1,0 +1,9 @@
+//= link_tree ../images
+//= link_directory ../stylesheets .css
+//= link application.js
+//= link controllers/cart_controller.js
+//= link controllers/dashboard_controller.js
+//= link controllers/hello_controller.js
+//= link controllers/index.js
+//= link controllers/products_controller.js
+//= link_tree ../builds
