@@ -17,7 +17,7 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 # Psych 
-gem "psych", "~> 4.0.0"
+gem "psych", "~> 5.1.2"
 #UJS
 gem "rails-ujs", "5.1.0.beta1"
 
