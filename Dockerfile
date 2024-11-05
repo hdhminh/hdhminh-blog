@@ -16,6 +16,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install base packages
 # Install base packages with documentation
+# Install base packages
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         curl \
@@ -31,8 +32,9 @@ RUN apt-get update -qq && \
         man-db \
         fakeroot-sysv \
         fakeroot \
-        manpages && \
+        manpages --fix-missing && \
     rm -rf /var/lib/apt/lists/*
+
 
 # Configuring update-alternatives and suppressing documentation warnings
 RUN update-alternatives --install /usr/bin/lzip lzip /usr/bin/lzip.lzip 30 2>/dev/null || true && \
