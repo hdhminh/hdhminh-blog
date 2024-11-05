@@ -16,7 +16,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 \
+    apt-get install -y curl libjemalloc2 libvips sqlite3 \
     xz-utils lzip lzop p7zip-full gzip bzip2 man-db && \
     rm -rf /var/lib/apt/lists/*
 
