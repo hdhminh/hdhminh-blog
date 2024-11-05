@@ -39,6 +39,9 @@ RUN echo 'path-exclude /usr/share/doc/*' >/etc/dpkg/dpkg.cfg.d/docker-minimal &&
     echo 'path-exclude /usr/share/locale/*' >>/etc/dpkg/dpkg.cfg.d/docker-minimal && \
     echo 'path-include /usr/share/locale/en*' >>/etc/dpkg/dpkg.cfg.d/docker-minimal
 
+# Remove completely update-alternatives
+RUN apt-get -y remove --purge man-db
+
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
