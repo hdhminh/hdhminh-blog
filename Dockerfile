@@ -11,9 +11,12 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 # Rails app lives here
 WORKDIR /rails
 
+# Set the non-interactive frontend for apt-get
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 xz-utils man-db && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -39,9 +42,9 @@ RUN echo 'path-exclude /usr/share/doc/*' >/etc/dpkg/dpkg.cfg.d/docker-minimal &&
     echo 'path-exclude /usr/share/locale/*' >>/etc/dpkg/dpkg.cfg.d/docker-minimal && \
     echo 'path-include /usr/share/locale/en*' >>/etc/dpkg/dpkg.cfg.d/docker-minimal
 
-# Remove completely update-alternatives
-RUN apt-get -y remove --purge man-db
-
+# Remove man-db if it's not needed
+RUN apt-get remove --purge -y man-db
+    
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
