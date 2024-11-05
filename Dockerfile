@@ -42,9 +42,14 @@ RUN echo 'path-exclude /usr/share/doc/*' >/etc/dpkg/dpkg.cfg.d/docker-minimal &&
     echo 'path-exclude /usr/share/locale/*' >>/etc/dpkg/dpkg.cfg.d/docker-minimal && \
     echo 'path-include /usr/share/locale/en*' >>/etc/dpkg/dpkg.cfg.d/docker-minimal
 
-# Remove man-db if it's not needed
-RUN apt-get remove --purge -y man-db
-    
+# Install necessary packages temporarily
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y xz-utils man-db && \
+    apt-get remove --purge -y man-db && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+
+
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
@@ -64,9 +69,6 @@ RUN chmod +x bin/* && \
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-
-
 
 # Final stage for app image
 FROM base
