@@ -15,26 +15,10 @@ WORKDIR /rails
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install base packages
-# Install base packages with documentation
-# Install base packages
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends \
-        curl \
-        libjemalloc2 \
-        libvips \
-        sqlite3 \
-        xz-utils \
-        lzip \
-        lzop \
-        p7zip-full \
-        gzip \
-        bzip2 \
-        man-db \
-        fakeroot-sysv \
-        fakeroot \
-        manpages --fix-missing && \
+    apt-get install -y --no-install-recommends curl libjemalloc2 libvips sqlite3 \
+    xz-utils lzip lzop p7zip-full gzip bzip2 man-db && \
     rm -rf /var/lib/apt/lists/*
-
 
 # Configuring update-alternatives and suppressing documentation warnings
 RUN update-alternatives --install /usr/bin/lzip lzip /usr/bin/lzip.lzip 30 2>/dev/null || true && \
@@ -51,7 +35,7 @@ FROM base AS build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git pkg-config && \
+    apt-get install -y build-essential git libpq-dev pkg-config && \
     rm -rf /var/lib/apt/lists/*
 
 # Install application gems
