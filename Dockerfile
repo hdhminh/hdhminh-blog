@@ -12,11 +12,12 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 WORKDIR /rails
 
 # Set the non-interactive frontend for apt-get
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 xz-utils man-db && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 \
+    xz-utils lzip lzop p7zip-full gzip bzip2 man-db && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -49,9 +50,8 @@ RUN apt-get update -qq && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-
 # Install application gems
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./ 
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
