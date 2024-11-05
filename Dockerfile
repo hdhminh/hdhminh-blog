@@ -12,13 +12,17 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 WORKDIR /rails
 
 # Set the non-interactive frontend for apt-get
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install base packages
 RUN apt-get update -qq && \
     apt-get install -y curl libjemalloc2 libvips sqlite3 \
     xz-utils lzip lzop p7zip-full gzip bzip2 man-db && \
     rm -rf /var/lib/apt/lists/*
+
+# Configuring update-alternatives and suppressing documentation warnings
+RUN update-alternatives --install /usr/bin/lzip lzip /usr/bin/lzip.lzip 30 2>/dev/null || true && \
+    update-alternatives --install /usr/bin/xz xz /usr/bin/xz 30 2>/dev/null || true
 
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -31,7 +35,7 @@ FROM base AS build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git pkg-config && \
+    apt-get install -y build-essential git pkg-config && \
     rm -rf /var/lib/apt/lists/*
 
 # Install application gems
