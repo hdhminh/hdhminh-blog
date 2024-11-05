@@ -5,7 +5,7 @@ gem "rails", "~> 7.2.2"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use pg as the database for Active Record
-gem "pg"
+gem 'pg', '~> 1.5', '>= 1.5.6'
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
@@ -17,7 +17,7 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 # Psych 
-gem "psych", "~> 5.1.2"
+gem "psych", "~> 4.0.0"
 #UJS
 gem "rails-ujs", "5.1.0.beta1"
 
