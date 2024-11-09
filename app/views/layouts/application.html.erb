@@ -16,8 +16,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %> 
+
   </head>
 
   <body class="prose mx-auto">
@@ -26,6 +28,7 @@
 
     <div>
     <% if user_signed_in? %>
+      <%= link_to "New blog post", new_blog_post_path%>
       <%#= link_to "Profile", edit_user_registration_path %>
       <%= button_to "Log out", destroy_user_session_path, method: :delete %>
     <% else %>
